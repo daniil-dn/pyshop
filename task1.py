@@ -7,7 +7,7 @@ from pprint import pprint
 import random
 import math
 
-TIMESTAMPS_COUNT = 50000
+TIMESTAMPS_COUNT = 50
 
 PROBABILITY_SCORE_CHANGED = 0.0001
 
@@ -22,7 +22,6 @@ INITIAL_STAMP = {
         "away": 0
     }
 }
-print(INITIAL_STAMP['offset'])
 
 
 def generate_stamp(previous_value):
@@ -61,7 +60,25 @@ def get_score(game_stamps, offset):
         Takes list of game's stamps and time offset for which returns the scores for the home and away teams.
         Please pay attention to that for some offsets the game_stamps list may not contain scores.
     '''
-    for i in game_stamps:
-        if i['offset'] == offset:
-            return i['home'], i['away']
+    # for i in game_stamps:
+    #     if i['offset'] == offset:
+    #         return i['home'], i['away']
+    start = 0
+    end = len(game_stamps)
+    mid = 0
+    step = 0
+    while start <= end:
+        step += 1
+        mid = (start + end) // 2
 
+        if game_stamps[mid]['offset'] == offset:  # offset in middle - RETURN
+            return game_stamps[mid]['score']['home'], game_stamps[mid]['score']['away']
+        elif game_stamps[mid]['offset'] > offset:  # if offset in left side
+            end = mid - 1
+        elif game_stamps[mid]['offset'] < offset:  # if offset in right side
+            start = mid + 1
+    return game_stamps[mid]['score']['home'], game_stamps[mid]['score'][
+        'away'], mid  # if searching offset is not in stamps list -> return the nearest offset data
+
+
+print(get_score(game_stamps, 30))
