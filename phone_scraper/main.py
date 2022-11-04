@@ -35,3 +35,4 @@ list_urls = []
 for item in list_of_smartphones_on_page_aTag:
     list_urls.append(item.get_attribute('href').split('?')[0])
 print(list_urls)
+#не доделал  переход по каждой ссылку и парсинг данных
